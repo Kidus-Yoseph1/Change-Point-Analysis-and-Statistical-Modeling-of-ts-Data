@@ -19,3 +19,63 @@ Before modeling, we analyzed the following properties of the Brent dataset:
 2. **Stationarity:** Conducted the **Augmented Dickey-Fuller (ADF)** test. The data is non-stationary, suggesting that modeling "Returns" (percentage change) may be more effective than raw prices.
 3. **Volatility:** Observed "Volatility Clustering" during crisis years (2008, 2014, 2020), indicating that our model must account for shifts in variance, not just the mean price.
 
+### How to run
+**1. Create a Virtual Environment**
+Open your terminal in the project root directory and run:
+
+```bash
+python -m venv venv
+
+```
+
+**2. Activate the Virtual Environment**
+
+* Windows:
+```bash
+venv\Scripts\activate
+
+```
+
+
+* macOS/Linux:
+```bash
+source venv/bin/activate
+
+```
+
+
+
+**3. Install Dependencies**
+Ensure you have the requirements.txt file in your directory, then run:
+
+```bash
+pip install -r requirements.txt
+
+```
+
+**4. Run Analysis**
+Execute the Bayesian modeling script to generate the processed data and results:
+
+```bash
+python src/analysis.py
+
+```
+
+**5. Start the Backend API**
+Launch the Flask server to serve the data to the frontend:
+
+```bash
+python backend/app.py
+
+```
+
+**6. Launch the Dashboard**
+In a separate terminal, navigate to the frontend directory and run:
+
+```bash
+npm install
+npm start
+
+```
+
+The dashboard will be available at http://localhost:3000. Ensure the Flask server is running on [http://127.0.0.1:5000](http://127.0.0.1:5000) for the visuals to populate.
