@@ -1,0 +1,48 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, ReferenceLine } from 'recharts';
+
+function App() {
+  const [data, setData] = useState([]);
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from your working Flask API
+    axios.get('http://127.0.0.1:5000/api/historical')
+      .then(res => setData(res.data))
+      .catch(err => console.error("Error fetching data:", err));
+    
+    axios.get('http://127.0.0.1:5000/api/results')
+      .then(res => setResults(res.data))
+      .catch(err => console.error("Error fetching results:", err));
+  }, []);
+
+  // Calculate the tau index from results for the vertical line
+  const tauObj = results.find(r => r.Unnamed_0 === 'tau');
+  const tauIndex = tauObj ? Math.round(tauObj.mean) : null;
+  const changeDate = tauIndex && data[tauIndex] ? data[tauIndex].Date : null;
+
+  return (
+    <div style={{ padding: '40px', backgroundColor: '#fff' }}>
+      <h1>🛢️ Brent Oil Analysis Dashboard</h1>
+      <hr />
+      
+      <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
+        <div style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '10px', flex: 1 }}>
+          <h3>Change Point: {changeDate || "Calculating..."}</h3>
+          <p>The model detected a structural shift in the market on this date.</p>
+        </div>
+      </div>
+
+      <div style={{ height: '500px', width: '100%', marginTop: '20px' }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="Date" interval={500} />
+            <YAxis domain={['auto', 'auto']} />
+            <Tooltip />
+            <Line type="monotone" dataKey="Price" stroke="#1f77b4" dot={false} strokeWidth={1} />
+            
+            {/* Mark the Change Point */}
+            {changeDate && (
+              <ReferenceLine x={changeDate} stroke="red" label="REGIME SHIFT" strok
