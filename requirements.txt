@@ -1,4 +1,15 @@
-pandas 
-matplotlib
-seaborn
-statsmodels
+# Backend & API 
+flask==3.0.0
+flask-cors==4.0.0
+gunicorn==21.2.0
+requests==2.31.0
+
+# Data Science & Bayesian Modeling 
+pandas==2.1.1
+numpy==1.26.0
+pymc==5.10.0
+arviz==0.16.1
+scipy==1.11.3
+matplotlib==3.8.0
+
+
